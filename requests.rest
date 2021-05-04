@@ -1,0 +1,14 @@
+### Get all users
+GET http://localhost:8080/users
+
+### Create a new user in the database
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "name": "John",
+    "age": 41
+}
+
+###
+DELETE http://localhost:8080/users/id/609178afd00018381cb3b673
