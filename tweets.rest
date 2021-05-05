@@ -1,0 +1,20 @@
+### Get all tweets
+GET http://localhost:8080/api/tweets
+
+### Create a tweet
+POST http://localhost:8080/api/tweets
+Content-Type: application/json
+
+{
+    "id": "6092a031a8452925eaa86ac3",
+    "body": "Hello, this is my first tweet!"
+}
+
+### Reply to a tweet
+POST http://localhost:8080/api/tweets/reply/6092c1179e4c1735471679c4
+Content-Type: application/json
+
+{
+    "id": "6092a031a8452925eaa86ac3",
+    "body": "Here is another reply"
+}
