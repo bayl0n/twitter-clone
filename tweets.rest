@@ -11,10 +11,10 @@ Content-Type: application/json
 }
 
 ### Reply to a tweet
-POST http://localhost:8080/api/tweets/reply/6092c1179e4c1735471679c4
+POST http://localhost:8080/api/tweets/reply/6092d94ceb4d8e40de5414e2
 Content-Type: application/json
 
 {
     "id": "6092a031a8452925eaa86ac3",
-    "body": "Here is another reply"
+    "body": "Congrats!"
 }

@@ -52,20 +52,26 @@ router.post('/', (req, res) => {
 router.post('/reply/:id', (req, res) => {
     Tweet.findById(req.params.id)
         .then(tweet => {
-            const newTweet = new Tweet({
-                author: req.body.id,
-                body: req.body.body,
-                reply_to: req.params.id
-            });
-            newTweet.save().then(() => {
-                User.updateOne({ _id: req.body.id }, { $push: { tweets: newTweet } }, () => {
-                    Tweet.updateOne({ _id: req.params.id }, { $push: { replies: newTweet } }, () => {
+            if (!tweet) return res.status(404).send('Requested tweet could not be found.');
+            User.findOne({ _id: req.body.id }, (err, user) => {
+                if (!user) return res.status(404).json({ msg: 'User could not be found' });
+                const newTweet = new Tweet({
+                    ...this,
+                    reply_to: req.params.id,
+                    author: {
+                        _id: user._id,
+                        username: user.username,
+                        email: user.email
+                    },
+                    body: req.body.body,
+                });
+                newTweet.save().then(tweet => {
+                    Tweet.updateOne({ _id: req.params.id }, { $push: { replies: tweet._id } }, () => {
                         res.json(newTweet);
                     });
                 });
             });
-        })
-        .catch(err => res.status(404).send('Tweet could not be found.'));
+        });
 });
 
 module.exports = router;
