@@ -76,7 +76,7 @@ router.patch('/unfollow/:id', (req, res) => {
 
 
 // @route   PATCH api/users/follow
-// @desc    Clear all follows and followers
+// @desc    Clear all follows and followers for all users
 // @access  Public
 router.patch('/follow', (req, res) => {
 
