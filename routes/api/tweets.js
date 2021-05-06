@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     // Find the author and get author details
     User.findOne({ _id: req.body.id }, (err, user) => {
-        if (err) return res.status(404).json({ msg: err });
+        if (err) return res.status(404).json({ msg: 'User could not be found.', err });
         console.log(user);
 
         const newTweet = new Tweet({
@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
                 });
             })
             .catch((err) => {
-                console.log(err);
+                res.send(500).json({ msg: 'Could not save tweet.', err });
             });
     });
 
@@ -50,11 +50,13 @@ router.post('/', (req, res) => {
 // @desc    Reply to a tweet
 // @access  Public
 router.post('/reply/:id', (req, res) => {
+    // Find requested tweet
     Tweet.findById(req.params.id)
         .then(tweet => {
-            if (!tweet) return res.status(404).send('Requested tweet could not be found.');
+            if (!tweet) return res.status(404).json({ msg: 'Requested tweet could not be found.' });
+            // Find owner of tweet
             User.findOne({ _id: req.body.id }, (err, user) => {
-                if (!user) return res.status(404).json({ msg: 'User could not be found' });
+                if (!user) return res.status(404).json({ msg: 'User could not be found.', err });
                 const newTweet = new Tweet({
                     reply_to: req.params.id,
                     author: {
@@ -64,12 +66,20 @@ router.post('/reply/:id', (req, res) => {
                     },
                     body: req.body.body,
                 });
-                newTweet.save().then(tweet => {
-                    Tweet.updateOne({ _id: req.params.id }, { $push: { replies: tweet._id } }, () => {
-                        res.json(newTweet);
-                    });
-                });
+                // Save new tweet and add it to replies
+                newTweet.save()
+                    .then(tweet => {
+                        Tweet.updateOne({ _id: req.params.id }, { $push: { replies: tweet._id } }, () => {
+                            res.json(newTweet);
+                        });
+                    })
+                    .catch((err) => {
+                        res.send(500).json({ msg: 'Could not save tweet.', err });
+                    });;
             });
+        })
+        .catch(err => {
+            res.status(404).json({ msg: 'Invalid tweet id_.', err });
         });
 });
 
@@ -77,12 +87,18 @@ router.post('/reply/:id', (req, res) => {
 // @desc    Get all replies to a tweet
 // @access  Public
 router.get('/replies/:id', (req, res) => {
+    // Find requested tweet
     Tweet.findById(req.params.id)
         .then(tweet => {
-            if (!tweet) return res.status(404).send('Requested tweet could not be found.');
+            if (!tweet) return res.status(404).json({ msg: 'Requested tweet could not be found.' });
+            // Find all replies to tweet
             Tweet.find({ _id: { $in: tweet.replies } }, (err, tweets) => {
+                if (err) return res.status(500).json({ msg: 'Replies could not be found.' });
                 res.json(tweets);
             });
+        })
+        .catch(err => {
+            res.status(400).json({ msg: 'Invalid tweet id_.', err });
         });
 });
 
@@ -90,14 +106,18 @@ router.get('/replies/:id', (req, res) => {
 // @desc    Returns tweet if requested tweet is replying to it
 // @access  Public
 router.get('/replyto/:id', (req, res) => {
+    // Find requested tweet
     Tweet.findById(req.params.id)
         .then((tweet) => {
-            if (!tweet) return res.status(404).send('Requested tweet could not be found.');
+            if (!tweet) return res.status(404).send({ msg: 'Requested tweet could not be found.' });
+            // Find tweet it is replying to
             Tweet.findOne({ _id: tweet.reply_to }, (err, tweet) => {
-                if (err) return res.status(400).send('Requested tweet isn\'t replying to any tweet');
-
+                if (!tweet) return res.status(404).json({ msg: 'Requested tweet isn\'t replying to any tweet.' });
                 res.json(tweet);
             });
+        })
+        .catch(err => {
+            res.status(400).json({ msg: 'Invalid tweet id_.', err });
         });
 });
 
