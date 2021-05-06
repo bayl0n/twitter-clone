@@ -56,7 +56,6 @@ router.post('/reply/:id', (req, res) => {
             User.findOne({ _id: req.body.id }, (err, user) => {
                 if (!user) return res.status(404).json({ msg: 'User could not be found' });
                 const newTweet = new Tweet({
-                    ...this,
                     reply_to: req.params.id,
                     author: {
                         _id: user._id,
@@ -70,6 +69,34 @@ router.post('/reply/:id', (req, res) => {
                         res.json(newTweet);
                     });
                 });
+            });
+        });
+});
+
+// @route   GET api/tweets/replies/:id
+// @desc    Get all replies to a tweet
+// @access  Public
+router.get('/replies/:id', (req, res) => {
+    Tweet.findById(req.params.id)
+        .then(tweet => {
+            if (!tweet) return res.status(404).send('Requested tweet could not be found.');
+            Tweet.find({ _id: { $in: tweet.replies } }, (err, tweets) => {
+                res.json(tweets);
+            });
+        });
+});
+
+// @route   GET api/tweets/replyto/:id
+// @desc    Returns tweet if requested tweet is replying to it
+// @access  Public
+router.get('/replyto/:id', (req, res) => {
+    Tweet.findById(req.params.id)
+        .then((tweet) => {
+            if (!tweet) return res.status(404).send('Requested tweet could not be found.');
+            Tweet.findOne({ _id: tweet.reply_to }, (err, tweet) => {
+                if (err) return res.status(400).send('Requested tweet isn\'t replying to any tweet');
+
+                res.json(tweet);
             });
         });
 });

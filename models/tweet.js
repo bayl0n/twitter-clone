@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Tweet Schema
 const TweetSchema = new mongoose.Schema({
     author: {
         _id: {

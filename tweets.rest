@@ -16,5 +16,11 @@ Content-Type: application/json
 
 {
     "id": "6092a031a8452925eaa86ac3",
-    "body": "Congrats!"
+    "body": "I can't believe it!"
 }
+
+### Get all replies to a tweet
+GET http://localhost:8080/api/tweets/replies/6092d94ceb4d8e40de5414e2
+
+### Get tweet that is replied to
+GET http://localhost:8080/api/tweets/replyto/60941e671cd5810d0a2ec40e
