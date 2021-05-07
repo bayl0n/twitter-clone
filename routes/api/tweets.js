@@ -10,8 +10,7 @@ const User = require('../../models/user');
 router.get('/', (req, res) => {
     Tweet.find()
         .then(tweets => res.json(tweets))
-        .catch(() => res.status(404)
-            .json({ success: false }));
+        .catch(err => res.status(404).json({ msg: 'Tweets could not be found.', err }));
 });
 
 // @route   POST api/tweets
