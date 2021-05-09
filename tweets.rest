@@ -6,7 +6,7 @@ POST http://localhost:8080/api/tweets
 Content-Type: application/json
 
 {
-    "id": "6092a031a8452925eaa86ac3",
+    "id": "6092a031a845225eaa86ac3",
     "body": "Hello, this is my first tweet!"
 }
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### Get all replies to a tweet
-GET http://localhost:8080/api/tweets/replies/6092d94ceb4d8e40de5414e2
+GET http://localhost:8080/api/tweets/replies/6092d94cedb4d8e40de5414e2
 
 ### Get tweet that is replied to
-GET http://localhost:8080/api/tweets/replyto/6092a031a8452925eaa86ac3
+GET http://localhost:8080/api/tweets/replyto/6092a031a8452925eaa86ac2
