@@ -12,8 +12,6 @@ import AllUsers from './components/AllUsers';
 
 function App() {
 
-    const [user, setUser] = useState("");
-
     return (
         <>
             <div>
@@ -27,10 +25,6 @@ function App() {
                     <li>
                         <Link to="/users">Users</Link>
                     </li>
-                    <li>
-                        <input type="text" name="user" value={user} onChange={e => setUser(e.target.value)} />
-                        <Link to={`/users/${ user }`}><button>User</button></Link>
-                    </li>
                 </ul>
                 <hr />
             </div>
@@ -38,9 +32,6 @@ function App() {
             <Switch>
                 <Route path="/about">
                     <About />
-                </Route>
-                <Route path="/users/:id">
-                    <User />
                 </Route>
                 <Route path="/users">
                     <AllUsers />
