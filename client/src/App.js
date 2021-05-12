@@ -3,11 +3,8 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import { useState } from "react";
-
 import Home from './pages/Home';
 import About from './pages/About';
-import User from './components/User';
 import AllUsers from './components/AllUsers';
 
 function App() {
