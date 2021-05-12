@@ -14,7 +14,7 @@ function AllUsers() {
             <h1>Search for a user</h1>
 
             <input type="text" name="user" value={user} onChange={e => setUser(e.target.value)} />
-            <Link to={`${ url }/${ user }`}><button>User</button></Link>
+            <Link to={`${ url }/${ user }`}><button>Search</button></Link>
 
             <Switch>
                 <Route exact path={path}>
