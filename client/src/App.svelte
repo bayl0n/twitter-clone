@@ -1,4 +1,6 @@
 <script>
+    import Todos from './Todos.svelte';
+
     let count = 0;
 
     let handleDecrement = () => {
@@ -28,6 +30,9 @@
         <button class="btn" on:click={handleIncrement}>+</button>
         <button on:click={handleReset}>Reset</button>
     </div>
+
+    <h1>Todo App</h1>
+    <Todos/>
 </main>
 
 <style>
