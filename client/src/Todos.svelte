@@ -18,7 +18,7 @@
 
     <ol>
         {#each todos as todo}
-            <li>{todo}</li>
+            <li>{todo} <button class="delete-btn">x</button></li>
         {/each}
     </ol>
 </div>
@@ -27,5 +27,10 @@
     div {
         margin: 0 auto;
         max-width: 280px;
+    }
+
+    .delete-btn {
+        background-color: red;
+        color: white;
     }
 </style>
