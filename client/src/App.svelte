@@ -33,6 +33,9 @@
 
     <h1>Todo App</h1>
     <Todos/>
+    <footer>
+        Test footer
+    </footer>
 </main>
 
 <style>
