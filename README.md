@@ -7,3 +7,4 @@ A twitter clone using the MERN stack.
 * React
 * Node
 * Redux
+
